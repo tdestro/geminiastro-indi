@@ -1,0 +1,14 @@
+build/
+build-*/
+cmake-build-*/
+compile_commands.json
+*.o
+*.so
+*.dylib
+*.dll
+*.exe
+*.log
+*.user
+*.swp
+.idea/
+.vscode/

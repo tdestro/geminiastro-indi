@@ -1,0 +1,8 @@
+<driversList>
+  <devGroup group="Focusers">
+    <device label="GeminiAstro Focuser" manufacturer="GeminiAstro">
+      <driver name="GeminiAstro Focuser">indi_geminiastro_focus</driver>
+      <version>0.0</version>
+    </device>
+  </devGroup>
+</driversList>

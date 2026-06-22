@@ -1,0 +1,187 @@
+#include "geminiastro_protocol.h"
+
+#include <cassert>
+#include <cmath>
+#include <string>
+
+int main()
+{
+    assert(geminiastro::handshakeCommand() == ":02#");
+    assert(geminiastro::firmwareCommand() == ":03#");
+    assert(geminiastro::controllerModelCommand() == ":04#");
+    assert(geminiastro::maxPositionCommand() == ":08#");
+    assert(geminiastro::maxIncrementCommand() == ":10#");
+    assert(geminiastro::positionCommand() == ":00#");
+    assert(geminiastro::movingCommand() == ":01#");
+    assert(geminiastro::temperatureCommand() == ":06#");
+    assert(geminiastro::coilPowerCommand() == ":11#");
+    assert(geminiastro::reverseCommand() == ":13#");
+    assert(geminiastro::temperaturePrecisionCommand() == ":21#");
+    assert(geminiastro::temperatureCompEnabledCommand() == ":24#");
+    assert(geminiastro::temperatureCompAvailableCommand() == ":25#");
+    assert(geminiastro::temperatureCompValueCommand() == ":26#");
+    assert(geminiastro::temperatureProbeAvailableCommand() == ":38#");
+    assert(geminiastro::temperatureCompOptionCommand() == ":83#");
+    assert(geminiastro::temperatureCompDirectionCommand() == ":87#");
+    assert(geminiastro::homeSwitchCommand() == ":63#");
+    assert(geminiastro::jogEnabledCommand() == ":66#");
+    assert(geminiastro::jogDirectionCommand() == ":68#");
+    assert(geminiastro::stepperPowerCommand() == ":89#");
+    assert(geminiastro::stepModeCommand() == ":29#");
+    assert(geminiastro::stepSizeEnabledCommand() == ":32#");
+    assert(geminiastro::stepSizeCommand() == ":33#");
+    assert(geminiastro::motorSpeedCommand() == ":43#");
+    assert(geminiastro::delayAfterMoveCommand() == ":72#");
+    assert(geminiastro::backlashInEnabledCommand() == ":74#");
+    assert(geminiastro::backlashOutEnabledCommand() == ":76#");
+    assert(geminiastro::backlashInStepsCommand() == ":78#");
+    assert(geminiastro::backlashOutStepsCommand() == ":80#");
+    assert(geminiastro::displayStatusCommand() == ":37#");
+    assert(geminiastro::lcdPageDisplayTimeCommand() == ":34#");
+    assert(geminiastro::lcdUpdateWhileMovingCommand() == ":62#");
+    assert(geminiastro::moveAbsoluteCommand(1234) == ":051234#");
+    assert(geminiastro::setMaxPositionCommand(9000) == ":079000#");
+    assert(geminiastro::abortCommand() == ":27#");
+    assert(geminiastro::homeCommand() == ":28#");
+    assert(geminiastro::syncPositionCommand(42) == ":3142#");
+    assert(geminiastro::setCoilPowerCommand(true) == ":121#");
+    assert(geminiastro::setCoilPowerCommand(false) == ":120#");
+    assert(geminiastro::setReverseCommand(true) == ":141#");
+    assert(geminiastro::setReverseCommand(false) == ":140#");
+    assert(geminiastro::setTemperaturePrecisionCommand(10) == ":2010#");
+    assert(geminiastro::setTemperatureCompValueCommand(25) == ":2225#");
+    assert(geminiastro::setTemperatureCompEnabledCommand(true) == ":231#");
+    assert(geminiastro::setTemperatureCompEnabledCommand(false) == ":230#");
+    assert(geminiastro::setTemperatureCompDirectionCommand(true) == ":881#");
+    assert(geminiastro::setTemperatureCompDirectionCommand(false) == ":880#");
+    assert(geminiastro::setJogDirectionCommand(false) == ":670#");
+    assert(geminiastro::setJogDirectionCommand(true) == ":671#");
+    assert(geminiastro::jogStartCommand() == ":651#");
+    assert(geminiastro::jogStopCommand() == ":650#");
+    assert(geminiastro::setMotorSpeedSlowCommand() == ":150#");
+    assert(geminiastro::setMotorSpeedMediumCommand() == ":151#");
+    assert(geminiastro::setMotorSpeedFastCommand() == ":152#");
+    assert(geminiastro::setMotorSpeedCommand(123) == ":15123#");
+    assert(geminiastro::setStepSizeEnabledCommand(true) == ":181#");
+    assert(geminiastro::setStepSizeEnabledCommand(false) == ":180#");
+    assert(geminiastro::setStepSizeCommand(5.4) == ":195.40#");
+    assert(geminiastro::setStepModeCommand(2) == ":302#");
+    assert(geminiastro::setDelayAfterMoveCommand(30) == ":7130#");
+    assert(geminiastro::setBacklashInEnabledCommand(true) == ":731#");
+    assert(geminiastro::setBacklashInEnabledCommand(false) == ":730#");
+    assert(geminiastro::setBacklashOutEnabledCommand(true) == ":751#");
+    assert(geminiastro::setBacklashOutEnabledCommand(false) == ":750#");
+    assert(geminiastro::setBacklashInStepsCommand(60) == ":7760#");
+    assert(geminiastro::setBacklashOutStepsCommand(70) == ":7970#");
+    assert(geminiastro::setLcdPageDisplayTimeCommand(2000) == ":352#");
+    assert(geminiastro::setLcdPageDisplayTimeCommand(3000) == ":353#");
+    assert(geminiastro::setLcdPageDisplayTimeCommand(4000) == ":354#");
+    assert(geminiastro::setLcdPageDisplayTimeCommand(2500).empty());
+    assert(geminiastro::setLcdUpdateWhileMovingCommand(true) == ":611#");
+    assert(geminiastro::setLcdUpdateWhileMovingCommand(false) == ":610#");
+    assert(geminiastro::setLcdEnabledCommand(true) == ":361#");
+    assert(geminiastro::setLcdEnabledCommand(false) == ":360#");
+    assert(geminiastro::setDelayedDisplayUpdateCommand(true) == ":901#");
+    assert(geminiastro::setDelayedDisplayUpdateCommand(false) == ":900#");
+    assert(geminiastro::setLcdPageOptionCommand(3) == ":923#");
+    assert(geminiastro::writeSettingsToEepromCommand() == ":48#");
+    assert(geminiastro::writeDefaultSettingsCommand() == ":42#");
+    assert(geminiastro::resetControllerCommand() == ":40#");
+
+    assert(geminiastro::parseHandshake("EOK#"));
+    assert(!geminiastro::parseHandshake("ERR#"));
+
+    std::string firmware;
+    assert(geminiastro::parseFirmware("F324#", firmware));
+    assert(firmware == "324");
+    std::string model;
+    assert(geminiastro::parseControllerModel("FmyFP2ULN2003\r\n324#", model));
+    assert(model == "myFP2ULN2003  324");
+
+    uint32_t value = 0;
+    assert(geminiastro::parseMaxPosition("M10000#", value));
+    assert(value == 10000);
+    assert(geminiastro::parseMaxIncrement("Y10000#", value));
+    assert(value == 10000);
+    assert(geminiastro::parsePosition("P5470#", value));
+    assert(value == 5470);
+
+    bool enabled = true;
+    assert(geminiastro::parseMoving("I0#", enabled));
+    assert(!enabled);
+    assert(geminiastro::parseMoving("I1#", enabled));
+    assert(enabled);
+    assert(geminiastro::parseCoilPower("O0#", enabled));
+    assert(!enabled);
+    assert(geminiastro::parseReverse("R1#", enabled));
+    assert(enabled);
+    assert(geminiastro::parseTemperaturePrecision("Q10#", value));
+    assert(value == 10);
+    assert(geminiastro::parseTemperatureCompEnabled("10#", enabled));
+    assert(!enabled);
+    assert(geminiastro::parseTemperatureCompAvailable("A0#", enabled));
+    assert(!enabled);
+    assert(geminiastro::parseTemperatureCompValue("B0#", value));
+    assert(value == 0);
+    assert(geminiastro::parseTemperatureProbeAvailable("b1#", enabled));
+    assert(enabled);
+    assert(geminiastro::parseTemperatureCompOption("c0#", enabled));
+    assert(!enabled);
+    assert(geminiastro::parseTemperatureCompDirection("k1#", enabled));
+    assert(enabled);
+    assert(geminiastro::parseHomeSwitch("H1#", enabled));
+    assert(enabled);
+    assert(geminiastro::parseJogEnabled("K0#", enabled));
+    assert(!enabled);
+    assert(geminiastro::parseJogDirection("V0#", enabled));
+    assert(!enabled);
+    assert(geminiastro::parseStepperPower("91#", enabled));
+    assert(enabled);
+    assert(geminiastro::parseStepMode("S1#", value));
+    assert(value == 1);
+    assert(geminiastro::parseStepSizeEnabled("U0#", enabled));
+    assert(!enabled);
+    assert(geminiastro::parseMotorSpeed("C0#", value));
+    assert(value == 0);
+    assert(geminiastro::parseDelayAfterMove("30#", value));
+    assert(value == 0);
+    assert(geminiastro::parseBacklashInEnabled("40#", enabled));
+    assert(!enabled);
+    assert(geminiastro::parseBacklashOutEnabled("50#", enabled));
+    assert(!enabled);
+    assert(geminiastro::parseBacklashInSteps("60#", value));
+    assert(value == 0);
+    assert(geminiastro::parseBacklashOutSteps("70#", value));
+    assert(value == 0);
+    assert(geminiastro::parseDisplayStatus("D1#", enabled));
+    assert(enabled);
+    assert(geminiastro::parseLcdPageDisplayTime("X2000#", value));
+    assert(value == 2000);
+    assert(geminiastro::parseLcdUpdateWhileMoving("L0#", enabled));
+    assert(!enabled);
+
+    double temperature = 0;
+    assert(geminiastro::parseTemperature("Z20.00#", temperature));
+    assert(std::abs(temperature - 20.0) < 0.001);
+    double stepSize = 0;
+    assert(geminiastro::parseStepSize("T5.40#", stepSize));
+    assert(std::abs(stepSize - 5.4) < 0.001);
+
+    assert(geminiastro::clampPosition(-10, 10000) == 0);
+    assert(geminiastro::clampPosition(50, 10000) == 50);
+    assert(geminiastro::clampPosition(20000, 10000) == 10000);
+    assert(geminiastro::validateSafeLimits(100, 900, 25, 10000));
+    assert(geminiastro::effectiveSafeLimitMin(100, 25) == 125);
+    assert(geminiastro::effectiveSafeLimitMax(900, 25) == 875);
+    assert(!geminiastro::validateSafeLimits(900, 100, 25, 10000));
+    assert(!geminiastro::validateSafeLimits(100, 900, 400, 10000));
+    assert(!geminiastro::validateSafeLimits(100, 12000, 25, 10000));
+    assert(!geminiastro::validateSafeLimits(0, 10000, 5000, 10000));
+
+    assert(!geminiastro::parsePosition("X5470#", value));
+    assert(!geminiastro::parsePosition("Pbad#", value));
+    assert(!geminiastro::parseTemperature("Zbad#", temperature));
+    assert(!geminiastro::parseStepSize("Tbad#", stepSize));
+
+    return 0;
+}
